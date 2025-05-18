@@ -1,0 +1,107 @@
+### Login
+POST http://localhost:8080/auth/login
+Content-Type: application/json
+
+{
+  "email": "pepe2@example.com",
+  "password": "password123"
+}
+
+@TOKEN= eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwZXBlMkBleGFtcGxlLmNvbSIsImlhdCI6MTc0NzQ2OTIwOCwiZXhwIjoxNzQ3ODI5MjA4fQ.iTQxFSrzbHrW_mR0CZyV3obsTEb9eyJilVUXjt_Y2Is
+###
+curl -H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwZXBlMkBleGFtcGxlLmNvbSIsImlhdCI6MTc0Njg5MDAyMywiZXhwIjoxNzQ2ODkzNjIzfQ.ox390675TJuAUfVxrbPhoVVqCsc8nNt1B2mvEx3HI1w" http://localhost:8080/v3/api-docs -o openapi.json
+Invoke-WebRequest -Uri "http://localhost:8080/v3/api-docs" -Headers @{Authorization = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwZXBlMkBleGFtcGxlLmNvbSIsImlhdCI6MTc0NzQ2OTIwOCwiZXhwIjoxNzQ3ODI5MjA4fQ.iTQxFSrzbHrW_mR0CZyV3obsTEb9eyJilVUXjt_Y2Is"} -OutFile "openapi.json"
+
+
+### verify
+POST http://localhost:8080/auth/verify
+Content-Type: application/json
+
+{
+  "token": "{{TOKEN}}"
+}
+
+
+### create user
+POST http://localhost:8080/api/users/create
+Content-Type: application/json
+
+{
+  "email": "pepe3@example.com",
+  "name": "pepe3",
+  "password": "password123"
+}
+
+
+### Obtener usuario por ID
+GET http://localhost:8080/api/orders/1
+Authorization: Bearer {{TOKEN}}
+
+### Actualizar usuario
+PUT http://localhost:8080/api/users/1
+Authorization: Bearer {{TOKEN}}
+Content-Type: application/json
+
+{
+  "id": 1,
+  "email": "alice@example.com",
+  "name": "aliceUpdated2",
+  "password": "password123"
+}
+
+### Eliminar usuario
+DELETE http://localhost:8080/api/users/1
+Authorization: Bearer {{TOKEN}}
+
+### Obtener todos los usuarios
+GET http://localhost:8080/api/users?page=0&size=10&sort=id,asc
+Authorization: Bearer {{TOKEN}}
+
+### Obtener todos los pedidos
+GET http://localhost:8080/api/orders/28
+Authorization: Bearer {{TOKEN}}
+
+### Obtener todas las facturas
+GET http://localhost:8080/api/bills?page=0&size=10&sort=id,asc
+Authorization: Bearer {{TOKEN}}
+
+### Obtener todos los productos
+GET http://localhost:8080/api/products?page=0&size=10&sort=id,asc
+Authorization: Bearer {{TOKEN}}
+
+### Obtener todos los fichajes
+GET http://localhost:8080/api/fichajes?page=0&size=10&sort=id,asc
+Authorization: Bearer {{TOKEN}}
+
+
+
+### Obtener pedidos ordenados por orderId
+GET http://localhost:8080/api/orders?page=0&size=10&sort=orderId,asc
+Authorization: Bearer {{TOKEN}}
+
+
+### Filtrar facturas con paginación
+POST http://localhost:8080/api/products/filter?page=0&size=10&sort=id,asc
+Content-Type: application/json
+Authorization: Bearer {{TOKEN}}
+
+{
+ "id": 6
+}
+
+### Crear pedido con productos y cantidades
+POST http://localhost:8080/api/orders
+Content-Type: application/json
+Authorization: Bearer {{TOKEN}}
+
+{
+  "clientId": 5,
+  "orderStatus": "IN_PROGRESS",
+  "deliveryAddress": "Calle Falsa 123",
+  "amount": 100.0,
+  "productos": [
+    { "id": 25, "amount": 2 },
+    { "id": 10, "amount": 25 },
+    { "id": 11, "amount": 21 }
+  ]
+}
